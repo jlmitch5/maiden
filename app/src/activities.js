@@ -23,7 +23,7 @@ const activities = [
     position: 'upper',
   },
   {
-    selector: 'configure',
+    selector: 'editor',
     tooltipMessage: `toggle configuration (${OS.metaKey()};)`,
     tooltipPosition: 'right',
     icon: ICONS.cog,
