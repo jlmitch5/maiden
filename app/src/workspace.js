@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import ReactModal from 'react-modal';
+import BoundConfigureActivity from './bound-configure-activity';
 import ActivityBar from './activity-bar';
 import activities from './activities';
+import IconButton from './icon-button';
+import { ICONS } from './svg-icons';
 import { commandService, keyService } from './services';
 import './workspace.css';
 
@@ -101,6 +104,10 @@ class Workspace extends Component {
         })
     }
 
+    handleCloseConfigModal = () => {
+        this.props.toggleComponent('config');
+    }
+
     render() {
         const selectedActivity = this.props.activities.find(a => {
             return this.props.selected === a.selector
@@ -126,6 +133,26 @@ class Workspace extends Component {
                     overlayClassName="workspace-modal-overlay"
                 >
                     {this.state.modalContent}
+                </ReactModal>
+                <ReactModal
+                    isOpen={!this.props.configHidden}
+                    onRequestClose={this.handleCloseConfigModal}
+                    contentLabel={"configure"}
+                    className="workspace-modal workspace-modal--config"
+                    overlayClassName="workspace-modal-overlay"
+                >
+                    <div className="workspace-modal-close-container">
+                        <IconButton
+                            key="cancel"
+                            action={() => this.props.toggleComponent('config')}
+                            tooltipMessage="cancel"
+                            tooltipPosition="left"
+                            icon={ICONS.cross}
+                            color="hsl(0, 0%, 59%)"
+                            size="12"
+                        />
+                    </div>
+                    <BoundConfigureActivity></BoundConfigureActivity>
                 </ReactModal>
             </div>
         )

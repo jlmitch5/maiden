@@ -28,9 +28,15 @@
     border-radius: 4px;
     background: #fff;
     padding: 20px;
-    outline: none;    
+    outline: none;
+    position: relative;
 
     /* are these needed? */
     overflow: auto;
     -webkit-overflow-scrolling: touch;
+}
+
+.workspace-modal-close-container {
+    position: absolute;
+    right: 20px;
 }

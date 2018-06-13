@@ -1,7 +1,6 @@
 import BoundEditActivity from './bound-edit-activity';
-import BoundConfigureActivity from './bound-configure-activity';
 import { ICONS } from './svg-icons';
-import { SIDEBAR_COMPONENT, REPL_COMPONENT } from './constants';
+import { SIDEBAR_COMPONENT, REPL_COMPONENT, CONFIG_COMPONENT } from './constants';
 import OS from './utils';
 
 const activities = [
@@ -25,10 +24,11 @@ const activities = [
   },
   {
     selector: 'configure',
-    tooltipMessage: `configure (${OS.metaKey()};)`,
+    tooltipMessage: `toggle configuration (${OS.metaKey()};)`,
     tooltipPosition: 'right',
     icon: ICONS.cog,
-    view: BoundConfigureActivity,
+    toggle: CONFIG_COMPONENT,
+    view: BoundEditActivity,
     position: 'lower',
   },
 ];
