@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactModal from 'react-modal';
+import ModalContent from './modal-content';
 import BoundConfigureActivity from './bound-configure-activity';
 import ActivityBar from './activity-bar';
 import activities from './activities';
@@ -108,6 +109,13 @@ class Workspace extends Component {
         this.props.toggleComponent('config');
     }
 
+    handleConfigModalAction = (choice) => {
+        if (choice === 'ok') {
+            this.child.save();
+        }
+        this.handleCloseConfigModal();
+    }
+
     render() {
         const selectedActivity = this.props.activities.find(a => {
             return this.props.selected === a.selector
@@ -136,23 +144,15 @@ class Workspace extends Component {
                 </ReactModal>
                 <ReactModal
                     isOpen={!this.props.configHidden}
-                    onRequestClose={this.handleCloseConfigModal}
                     contentLabel={"configure"}
                     className="workspace-modal workspace-modal--config"
                     overlayClassName="workspace-modal-overlay"
                 >
-                    <div className="workspace-modal-close-container">
-                        <IconButton
-                            key="cancel"
-                            action={() => this.props.toggleComponent('config')}
-                            tooltipMessage="cancel"
-                            tooltipPosition="left"
-                            icon={ICONS.cross}
-                            color="hsl(0, 0%, 59%)"
-                            size="12"
-                        />
-                    </div>
-                    <BoundConfigureActivity></BoundConfigureActivity>
+                    <ModalContent
+                        message={"configure"}
+                        buttonAction={this.handleConfigModalAction}>
+                            <BoundConfigureActivity onRef={ref => (this.child = ref)}></BoundConfigureActivity>
+                    </ModalContent>
                 </ReactModal>
             </div>
         )
