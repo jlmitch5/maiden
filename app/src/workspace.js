@@ -1,13 +1,18 @@
 import React, { Component } from 'react';
 import ReactModal from 'react-modal';
+import ModalContent from './modal-content';
+import BoundConfigureActivity from './bound-configure-activity';
 import ActivityBar from './activity-bar';
 import activities from './activities';
+import IconButton from './icon-button';
+import { ICONS } from './svg-icons';
 import { commandService, keyService } from './services';
 import './workspace.css';
 
 ReactModal.setAppElement('#root');
 
 class Workspace extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -103,6 +108,17 @@ class Workspace extends Component {
     });
   };
 
+  handleCloseConfigModal = () => {
+    this.props.toggleComponent('config');
+  }
+
+  handleConfigModalAction = (choice) => {
+    if (choice === 'ok') {
+      this.child.save();
+    }
+    this.handleCloseConfigModal();
+  }
+
   render() {
     const selectedActivity = this.props.activities.find(a => this.props.selected === a.selector);
     const ActivityView = selectedActivity.view;
@@ -127,6 +143,20 @@ class Workspace extends Component {
           overlayClassName="workspace-modal-overlay"
         >
           {this.state.modalContent}
+        </ReactModal>
+        <ReactModal
+          isOpen={!this.props.configHidden}
+          contentLabel={"configure"}
+          className="workspace-modal workspace-modal--config"
+          overlayClassName="workspace-modal-overlay"
+        >
+          <ModalContent
+            message={"configure"}
+            buttonAction={this.handleConfigModalAction}
+          >
+            <BoundConfigureActivity onRef={ref => (this.child = ref)}>
+            </BoundConfigureActivity>
+          </ModalContent>
         </ReactModal>
       </div>
     );
